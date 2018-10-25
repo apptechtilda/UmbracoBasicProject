@@ -1,0 +1,14 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.CookieInfo>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+    Layout = "Master.cshtml";
+}
+
+<h1>@Model.GetPropertyValue("heading")</h1>
+<p class="lead">@Model.GetPropertyValue("subtitle")</p>
+@Model.GetPropertyValue("bodytext")
+
+@if (Model.HasValue("image")) {
+    var image = Umbraco.TypedMedia(Model.GetPropertyValue<string>("image"));
+    <img src="@image.Url" title="@image.Name"/>
+}

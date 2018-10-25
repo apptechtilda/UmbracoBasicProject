@@ -1,0 +1,87 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+@using BasicUmbraco.Web.Models
+@using Umbraco.Web.Models
+
+@(Model.MacroParameters["SendForm"])
+@(Model.MacroParameters["Message"])
+@{
+    var model = new UmbracoContactModel();
+}
+
+@using (Html.BeginUmbracoForm("Submit", "Contact", new { SendFrom = Model.MacroParameters["SendForm"], Subject = Model.MacroParameters["Subject"] }))
+    {
+        <div class="form-group">
+            <label>@Html.DisplayNameFor(m => model.Name)</label>
+            @Html.TextBoxFor(m => model.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => model.Name, model.Name, new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            <label>@Html.DisplayNameFor(m => model.Company)</label>
+            @Html.TextBoxFor(m => model.Company, new { @class = "form-control" })
+
+        </div>
+        <div class="form-group">
+            <label>@Html.DisplayNameFor(m => model.Email)</label>
+            @Html.TextBoxFor(m => model.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => model.Email, model.Email, new { @class = "text-danger" })
+
+        </div>
+        <div class="form-group">
+            <label>@Html.DisplayNameFor(m => model.Phone)</label>
+            @Html.TextBoxFor(m => model.Phone, new { @class = "form-control" })
+
+        </div>
+        <div class="form-group">
+            <label>@Html.DisplayNameFor(m => model.Message)</label>
+            @Html.TextAreaFor(m => model.Message, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>@Html.DisplayNameFor(m => model.GDPR)</label>
+            @Html.CheckBoxFor(m => model.GDPR)
+            @Html.ValidationMessage("GDPR", new { @class = "text-danger" })
+        </div>
+        <input type="submit" name="Submit" value="Submit" />
+    }
+
+@*<!-- ko with : ContactPage -->
+<!-- ko with : contact -->
+<form data-bind="submit: $parent.submit, visible: !$parent.successView(), value: subject(@Model)" class="light-form">
+
+    <fieldset>
+        <div class="form-group" data-bind="validationElement: email">
+            <input type="text" class="form-control" placeholder="E-post" data-bind="value: email.extend({ email: { params: true, message: 'Vänligen ange en giltig e-post'},
+                                                                    required: { message: 'Vänligen ange e-post' }
+                                                                })">
+
+        </div>
+        <div class="form-group">
+                <input type="text" class="form-control" placeholder="@umbraco.library.GetDictionaryItem("Name")" data-bind="value: Name.extend({})">
+
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="@umbraco.library.GetDictionaryItem("Company")" data-bind="value: Company">
+
+            </div>
+
+            <div class="form-group" data-bind="validationElement: Message">
+                <textarea type="text" class="form-control" placeholder="@umbraco.library.GetDictionaryItem("Message") * " data-bind="value: Message.extend({
+                                                                    required: {  message: '@umbraco.library.GetDictionaryItem("Please enter")  @umbraco.library.GetDictionaryItem("Message")' }
+                                                                })"></textarea>
+
+            </div>
+        <div class="form-group text-center">
+            <input type="submit" value="Skicka" class="btn btn-primary" />
+        </div>
+    </fieldset>
+
+</form>
+
+<!-- /ko -->
+ContactPage.contact().subject('@Model.MacroParameters["Subject"]')
+<!-- /ko -->
+@Model.
+@{
+    var paramCategories = PartialViewMacroModelExtensions.GetParameterValue<string>(Model, "Subject", Model.Content.Name).ToString();
+<h1>  @paramCategories</h1>
+}*@

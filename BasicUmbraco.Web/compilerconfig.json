@@ -1,0 +1,18 @@
+﻿[
+  {
+    "outputFile": "Css/global.css",
+    "inputFile": "Css/global.scss"
+  },
+  {
+    "outputFile": "Css/navbar.css",
+    "inputFile": "Css/navbar.scss"
+  },
+  {
+    "outputFile": "Css/elements.css",
+    "inputFile": "Css/elements.scss"
+  },
+  {
+    "outputFile": "Css/hamburger-navbar.css",
+    "inputFile": "Css/hamburger-navbar.scss"
+  }
+]

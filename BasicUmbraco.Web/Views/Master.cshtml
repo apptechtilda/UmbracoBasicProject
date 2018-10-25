@@ -1,0 +1,94 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+
+@using Umbraco.Web
+
+@using System.Web.Optimization
+@{
+    Layout = null;
+    //IPublishedContent content =
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    @Styles.Render("~/bundles/site.css")
+
+    @{
+        var root = Model.AncestorOrSelf(1);
+        var hostUrl = root.UrlWithDomain();
+        var currentUrl = Model.UrlWithDomain();
+        var metaTitle = Model.Name;
+        if (Model.HasValue("metaTitle"))
+        {
+            metaTitle = Model.GetPropertyValue<string>("metaTitle");
+        }
+        else if (Model.HasValue("heading"))
+        {
+            metaTitle = Model.GetPropertyValue<string>("heading");
+        }
+        var metaDescription = Model.Name;
+        if (Model.HasValue("metaDescription"))
+        {
+            metaDescription  = Model.GetPropertyValue<string>("metaDescription");
+        }
+        else if (Model.HasValue("subtitle"))
+        {
+            metaDescription = Model.GetPropertyValue<string>("subtitle");
+        }
+
+        var socialImage = "";
+        if (Model.HasValue("socialImage"))
+        {
+            socialImage = Umbraco.TypedMedia(Model.GetPropertyValue<string>("socialImage")).Url;
+        }
+        else if (Model.HasValue("image"))
+        {
+            socialImage = Umbraco.TypedMedia(Model.GetPropertyValue<string>("image")).Url;
+        }
+    }
+
+    @RenderSection("head", false)
+    <title>
+        @metaTitle | @(root.GetPropertyValue<string>("metaCompany"))
+    </title>
+    <meta name="description" content="@metaDescription" />
+    <meta name="author" content="@(root.GetPropertyValue<string>("metaCompany"))" />
+    <meta property="og:url" content="@currentUrl" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="@metaTitle" />
+    <meta property="og:description" content="@metaDescription" />
+    <meta property="og:image" content="@hostUrl@socialImage" />
+</head>
+
+<body>
+    @Html.Partial("NavbarHamburger")
+    <main>
+        @RenderBody()
+    </main>
+     
+  
+    @Scripts.Render("~/bundles/site.js")
+    @Scripts.Render("~/bundles/knockout.js")
+    <script src="~/Scripts/pages/contact.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.cookieBar({
+                fixed: true,
+                bottom: true,
+                message: 'This website uses cookies to ensure you get the best experience on our website <a href="/cookie-policy/">More info</a>'
+            });
+        });
+    </script>
+
+    @RenderSection("scripts", false)
+   
+
+</body>
+</html>
+
+
+
+
